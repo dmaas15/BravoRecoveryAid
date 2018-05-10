@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Accord.MachineLearning;
 
 namespace BravoRecoveryAid
 {
@@ -45,7 +46,6 @@ namespace BravoRecoveryAid
                 {
                     string[] subStrings = line.Split('\t');
                     dataGridView1.Rows.Add(subStrings);
-                    Console.WriteLine(subStrings[0]);
                 }
 
             }
@@ -61,6 +61,39 @@ namespace BravoRecoveryAid
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                if (!row.IsNewRow)
+                    dataGridView1.Rows.Remove(row);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            int lastRow = dataGridView1.Rows.Count;
+            int rowCount = 1;
+            object protocol;
+            //Console.WriteLine(lastRow);
+            do
+            {
+                protocol = dataGridView1.Rows[lastRow - rowCount].Cells[7].Value;
+                if (protocol!=null)
+                {
+                    if (protocol.ToString() != "")
+                    {
+                        Console.WriteLine(protocol.GetType() + " " + protocol);
+                        textBox2.Text = protocol.ToString();
+                        break;
+                    }
+                }
+                //Console.WriteLine(protocol);
+                rowCount++;
+            } while (rowCount<lastRow);
+;
         }
     }
 }
